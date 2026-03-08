@@ -1,0 +1,11 @@
+[project]
+name = "agent-streaming"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "openai-agents>=0.10.5",
+    "python-dotenv>=1.2.2",
+    "tavily-python>=0.7.22",
+]
