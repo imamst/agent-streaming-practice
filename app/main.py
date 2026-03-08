@@ -19,7 +19,7 @@ set_tracing_disabled(True)
 
 async def main(input):
     session = SQLAlchemySession.from_url(
-        "user-123", url="sqlite+aiosqlite:///:memory:", create_tables=True
+        "user-123", url="sqlite+aiosqlite:///./dev.db", create_tables=True
     )
 
     agent: Agent = Agent(
