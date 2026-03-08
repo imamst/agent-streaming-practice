@@ -1,3 +1,4 @@
+from app.prompt import SYSTEM_PROMPT
 from openai.types.responses import ResponseTextDeltaEvent
 from app.tools import search_web
 from app.llm import llm_model
@@ -12,7 +13,7 @@ set_tracing_disabled(True)
 async def main():
     agent: Agent = Agent(
         name="Assistant",
-        instructions="You are a helpful assistant",
+        instructions=SYSTEM_PROMPT,
         model=llm_model,
         tools=[search_web],
     )
@@ -24,7 +25,7 @@ async def main():
             event, RawResponsesStreamEvent
         ):
             if isinstance(event.data, ResponseTextDeltaEvent):
-                print(event.data.delta)
+                print(event.data.delta, end="", flush=True)
 
 
 if __name__ == "__main__":
