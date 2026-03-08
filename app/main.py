@@ -9,6 +9,7 @@ from agents import (
     set_tracing_disabled,
     RunItemStreamEvent,
 )
+from agents.extensions.memory import SQLAlchemySession
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -17,6 +18,10 @@ set_tracing_disabled(True)
 
 
 async def main(input):
+    session = SQLAlchemySession.from_url(
+        "user-123", url="sqlite+aiosqlite:///:memory:", create_tables=True
+    )
+
     agent: Agent = Agent(
         name="Assistant",
         instructions=SYSTEM_PROMPT,
@@ -24,7 +29,7 @@ async def main(input):
         tools=[search_web],
     )
 
-    runner = Runner.run_streamed(agent, input=input)
+    runner = Runner.run_streamed(agent, input=input, session=session)
 
     async for event in runner.stream_events():
         if event.type == "raw_response_event" and isinstance(
